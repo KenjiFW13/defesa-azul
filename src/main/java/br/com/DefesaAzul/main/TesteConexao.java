@@ -1,0 +1,17 @@
+package br.com.DefesaAzul.main;
+
+import br.com.DefesaAzul.conexoes.ConexaoFactory;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class TesteConexao {
+    // Chamando método para conexão com o banco de dados
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Connection cn = new ConexaoFactory().conexao();
+
+        System.out.println("Conectado com o banco de dados");
+
+        cn.close();
+    }
+}
