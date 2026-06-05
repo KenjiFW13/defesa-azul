@@ -2,6 +2,7 @@ package br.com.DefesaAzul.bo;
 
 import br.com.DefesaAzul.dao.AlertaDao;
 import br.com.DefesaAzul.entities.Alerta;
+import br.com.DefesaAzul.entities.AlertaDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,5 +41,11 @@ public class AlertaBo {
     public Alerta selecionarPorCodigoBo(int codigo) throws SQLException, ClassNotFoundException {
         AlertaDao alertaDao = new AlertaDao();
         return alertaDao.selecionarPorCodigo(codigo);
+    }
+
+    // Query JOIN
+    public ArrayList<AlertaDTO> queryJoinBo() throws SQLException, ClassNotFoundException {
+        alertaDao = new AlertaDao();
+        return (ArrayList<AlertaDTO>) alertaDao.queryJoin();
     }
 }
