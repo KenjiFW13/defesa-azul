@@ -2,6 +2,7 @@ package br.com.DefesaAzul.dao;
 
 import br.com.DefesaAzul.conexoes.ConexaoFactory;
 import br.com.DefesaAzul.entities.Alerta;
+import br.com.DefesaAzul.entities.AlertaDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -99,5 +100,46 @@ public class AlertaDao {
         stmt.close();
 
         return objAlerta;
+    }
+
+    // Query JOIN
+    public ArrayList<AlertaDTO> queryJoin() throws SQLException {
+        ArrayList<AlertaDTO> listaAlertaDto = new ArrayList<AlertaDTO>();
+        PreparedStatement stmt = minhaConexao.prepareStatement("""
+            SELECT
+                a.id_alerta,
+                emb.mmsi_embarcacao,
+                emb.nm_embarcacao,
+                pe.lat_posicao_evento,
+                pe.lon_posicao_evento,
+                r.nome_regioes,
+                a.status_alertas,
+                a.dt_geracao_alerta
+            FROM T_DA_ALERTAS a
+            JOIN T_DA_EVENTO_PESCA ep   ON a.id_evento_pesca    = ep.id_evento_pesca
+            JOIN T_DA_EMBARCACAO emb    ON ep.id_embarcacao      = emb.id_embarcacao
+            LEFT JOIN T_DA_POSICAO_EVENTO pe ON ep.id_evento_pesca = pe.id_evento_pesca
+            LEFT JOIN T_DA_REGIOES_EVENTOS re ON ep.id_evento_pesca = re.id_evento_pesca
+            LEFT JOIN T_DA_REGIOES r    ON re.id_regioes         = r.id_regioes
+            ORDER BY a.dt_geracao_alerta DESC
+            """);
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()){
+            AlertaDTO objAlertaDTO = new AlertaDTO();
+            objAlertaDTO.setIdAlertaDto(rs.getString(1));
+            objAlertaDTO.setMmsi(rs.getString(2));
+            objAlertaDTO.setNomeEmbarcacao(rs.getString(3));
+            objAlertaDTO.setLatitude(rs.getDouble(4));
+            objAlertaDTO.setLongitude(rs.getDouble(5));
+            objAlertaDTO.setAreaProtegida(rs.getString(6));
+            objAlertaDTO.setStatus(rs.getString(7));
+            objAlertaDTO.setTimestamp(rs.getString(8));
+
+            listaAlertaDto.add(objAlertaDTO);
+        }
+
+        return listaAlertaDto;
     }
 }
