@@ -2,6 +2,7 @@ package br.com.DefesaAzul.resource;
 
 import br.com.DefesaAzul.bo.AlertaBo;
 import br.com.DefesaAzul.entities.Alerta;
+import br.com.DefesaAzul.entities.AlertaDTO;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
@@ -57,5 +58,13 @@ public class AlertaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Alerta selecionarPorCodigoRs(@PathParam("codigo") int codigo) throws SQLException, ClassNotFoundException {
         return (Alerta) alertaBo.selecionarPorCodigoBo(codigo);
+    }
+
+    // Query Join
+    @GET
+    @Path("/queryJoin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<AlertaDTO> queryJoinRs() throws SQLException, ClassNotFoundException {
+        return (ArrayList<AlertaDTO>) alertaBo.queryJoinBo();
     }
 }
