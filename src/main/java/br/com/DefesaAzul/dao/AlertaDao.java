@@ -142,4 +142,17 @@ public class AlertaDao {
 
         return listaAlertaDto;
     }
+
+    // updateStatus
+    public String updateStatus(AlertaDTO alertaDTO) throws SQLException {
+        PreparedStatement stmt = minhaConexao.prepareStatement
+                ("Update T_DA_ALERTAS set status_alertas =? where id_alerta =?");
+        stmt.setString(1, alertaDTO.getStatus());
+        stmt.setString(2, alertaDTO.getIdAlertaDto());
+
+        stmt.executeUpdate();
+        stmt.close();
+
+        return "Status Atualizado";
+    }
 }
