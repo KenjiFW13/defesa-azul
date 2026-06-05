@@ -48,4 +48,11 @@ public class AlertaBo {
         alertaDao = new AlertaDao();
         return (ArrayList<AlertaDTO>) alertaDao.queryJoin();
     }
+
+    // updateStatus
+    public String updateStatusBo(AlertaDTO alertaDTO) throws SQLException, ClassNotFoundException {
+        AlertaDao alertaDao = new AlertaDao();
+
+        return alertaDao.updateStatus(alertaDTO);
+    }
 }
