@@ -67,4 +67,13 @@ public class AlertaResource {
     public ArrayList<AlertaDTO> queryJoinRs() throws SQLException, ClassNotFoundException {
         return (ArrayList<AlertaDTO>) alertaBo.queryJoinBo();
     }
+
+    // Update
+    @PUT
+    @Path("api/{codigo}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateStatusRs(AlertaDTO alertaDTO, @PathParam("codigo") String codigo) throws SQLException, ClassNotFoundException {
+        alertaBo.updateStatusBo(alertaDTO);
+        return Response.ok().build();
+    }
 }
