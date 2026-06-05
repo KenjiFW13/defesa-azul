@@ -2,7 +2,6 @@ package br.com.DefesaAzul.dao;
 
 import br.com.DefesaAzul.conexoes.ConexaoFactory;
 import br.com.DefesaAzul.entities.Alerta;
-import br.com.DefesaAzul.entities.Embarcacao;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,9 +28,9 @@ public class AlertaDao {
     }
 
     // Deletar
-    public String deletar(String codigo) throws SQLException {
+    public String deletar(int codigo) throws SQLException {
         PreparedStatement stmt = minhaConexao.prepareStatement("Delete From T_DA_ALERTAS where ID_ALERTA =?");
-        stmt.setString(1, codigo);
+        stmt.setInt(1, codigo);
 
         stmt.execute();
         stmt.close();
@@ -78,10 +77,10 @@ public class AlertaDao {
     }
 
     // Select / Código
-    public Alerta selecionarPorCodigo(String codigo) throws SQLException {
+    public Alerta selecionarPorCodigo(int codigo) throws SQLException {
         Alerta objAlerta = null;
         PreparedStatement stmt = minhaConexao.prepareStatement("select * from T_DA_ALERTAS where id_alerta = ?");
-        stmt.setString(1, codigo);
+        stmt.setInt(1, codigo);
 
         ResultSet rs = stmt.executeQuery();
 
