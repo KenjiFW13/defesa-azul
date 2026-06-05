@@ -148,7 +148,7 @@ public class AlertaDao {
         PreparedStatement stmt = minhaConexao.prepareStatement
                 ("Update T_DA_ALERTAS set status_alertas =? where id_alerta =?");
         stmt.setString(1, alertaDTO.getStatus());
-        stmt.setString(2, alertaDTO.getIdAlertaDto());
+        stmt.setLong(2, Long.parseLong(alertaDTO.getIdAlertaDto()));
 
         stmt.executeUpdate();
         stmt.close();

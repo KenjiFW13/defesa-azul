@@ -73,6 +73,7 @@ public class AlertaResource {
     @Path("api/{codigo}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateStatusRs(AlertaDTO alertaDTO, @PathParam("codigo") String codigo) throws SQLException, ClassNotFoundException {
+        alertaDTO.setIdAlertaDto(codigo);
         alertaBo.updateStatusBo(alertaDTO);
         return Response.ok().build();
     }
