@@ -1,13 +1,14 @@
 package br.com.DefesaAzul.entities;
 
 public class AlertaDTO {
-    private String idAlertaDto, mmsi, nomeEmbarcacao, areaProtegida, status, timestamp;
+    private String mmsi, nomeEmbarcacao, areaProtegida, status, timestamp;
     private Double latitude, longitude;
+    private Long idAlertaDto;
 
     public AlertaDTO() {
     }
 
-    public AlertaDTO(String idAlertaDto, String mmsi, String nomeEmbarcacao, String areaProtegida, String status, String timestamp, Double latitude, Double longitude) {
+    public AlertaDTO(Long idAlertaDto, String mmsi, String nomeEmbarcacao, String areaProtegida, String status, String timestamp, Double latitude, Double longitude) {
         this.idAlertaDto = idAlertaDto;
         this.mmsi = mmsi;
         this.nomeEmbarcacao = nomeEmbarcacao;
@@ -18,11 +19,15 @@ public class AlertaDTO {
         this.longitude = longitude;
     }
 
-    public String getIdAlertaDto() {
+    public Long getId(){
         return idAlertaDto;
     }
 
-    public void setIdAlertaDto(String idAlertaDto) {
+    public Long getIdAlertaDto() {
+        return idAlertaDto;
+    }
+
+    public void setIdAlertaDto(Long idAlertaDto) {
         this.idAlertaDto = idAlertaDto;
     }
 

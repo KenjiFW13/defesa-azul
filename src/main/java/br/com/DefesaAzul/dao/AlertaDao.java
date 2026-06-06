@@ -128,7 +128,7 @@ public class AlertaDao {
 
         while (rs.next()){
             AlertaDTO objAlertaDTO = new AlertaDTO();
-            objAlertaDTO.setIdAlertaDto(rs.getString(1));
+            objAlertaDTO.setIdAlertaDto(rs.getLong(1));
             objAlertaDTO.setMmsi(rs.getString(2));
             objAlertaDTO.setNomeEmbarcacao(rs.getString(3));
             objAlertaDTO.setLatitude(rs.getDouble(4));
@@ -148,7 +148,7 @@ public class AlertaDao {
         PreparedStatement stmt = minhaConexao.prepareStatement
                 ("Update T_DA_ALERTAS set status_alertas =? where id_alerta =?");
         stmt.setString(1, alertaDTO.getStatus());
-        stmt.setLong(2, Long.parseLong(alertaDTO.getIdAlertaDto()));
+        stmt.setLong(2, alertaDTO.getIdAlertaDto());
 
         stmt.executeUpdate();
         stmt.close();

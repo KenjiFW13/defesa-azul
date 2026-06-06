@@ -36,9 +36,9 @@ public class AlertaResource {
         return Response.ok().build();
     }
 
-    // Update
+    // PUT atualizar completo
     @PUT
-    @Path("/{codigo}")
+    @Path("/atualizar/{codigo}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response atualizarRs(Alerta alerta, @PathParam("codigo") int codigo) throws SQLException, ClassNotFoundException {
         alertaBo.atualizarBO(alerta);
@@ -52,9 +52,9 @@ public class AlertaResource {
         return (ArrayList<Alerta>) alertaBo.selecionarBO();
     }
 
-    // Selecionar por código
+    // Selecionar por Id
     @GET
-    @Path("/{codigo}")
+    @Path("/buscar/{codigo}")
     @Produces(MediaType.APPLICATION_JSON)
     public Alerta selecionarPorCodigoRs(@PathParam("codigo") int codigo) throws SQLException, ClassNotFoundException {
         return (Alerta) alertaBo.selecionarPorCodigoBo(codigo);
@@ -68,11 +68,10 @@ public class AlertaResource {
         return (ArrayList<AlertaDTO>) alertaBo.queryJoinBo();
     }
 
-    // Update
     @PUT
-    @Path("api/{codigo}")
+    @Path("/status/{codigo}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateStatusRs(AlertaDTO alertaDTO, @PathParam("codigo") String codigo) throws SQLException, ClassNotFoundException {
+    public Response updateStatusRs(AlertaDTO alertaDTO, @PathParam("codigo") Long codigo) throws SQLException, ClassNotFoundException {
         alertaDTO.setIdAlertaDto(codigo);
         alertaBo.updateStatusBo(alertaDTO);
         return Response.ok().build();
