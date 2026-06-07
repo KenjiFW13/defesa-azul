@@ -1,6 +1,7 @@
 package br.com.DefesaAzul.bo;
 
 import br.com.DefesaAzul.dao.EventoPescaDao;
+import br.com.DefesaAzul.entities.EmbarcacaoMapaDTO;
 import br.com.DefesaAzul.entities.EventoPesca;
 
 import java.sql.SQLException;
@@ -40,5 +41,11 @@ public class EventoPescaBo {
     public EventoPesca selecionarPorCodigoBo(int codigo) throws SQLException, ClassNotFoundException {
         EventoPescaDao eventoPescaDao = new EventoPescaDao();
         return eventoPescaDao.selecionarPorCodigo(codigo);
+    }
+
+    // queryMapa
+    public ArrayList<EmbarcacaoMapaDTO> queryMapa() throws SQLException, ClassNotFoundException {
+        eventoPescaDao = new EventoPescaDao();
+        return (ArrayList<EmbarcacaoMapaDTO>) eventoPescaDao.queryMapa();
     }
 }
