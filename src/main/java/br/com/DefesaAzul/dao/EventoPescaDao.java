@@ -1,6 +1,7 @@
 package br.com.DefesaAzul.dao;
 
 import br.com.DefesaAzul.conexoes.ConexaoFactory;
+import br.com.DefesaAzul.entities.EmbarcacaoMapaDTO;
 import br.com.DefesaAzul.entities.EventoPesca;
 
 import java.sql.*;
@@ -105,5 +106,49 @@ public class EventoPescaDao {
         stmt.close();
 
         return objEventoPesca;
+    }
+
+    public ArrayList<EmbarcacaoMapaDTO> queryMapa() throws SQLException {
+        ArrayList<EmbarcacaoMapaDTO> listaEmbarcacaoMapa = new ArrayList<EmbarcacaoMapaDTO>();
+        PreparedStatement stmt = minhaConexao.prepareStatement("""
+            SELECT
+                emb.mmsi_embarcacao,
+                emb.nm_embarcacao,
+                pe.lat_posicao_evento,
+                pe.lon_posicao_evento,
+                mp.velocidade_media_nos_metricas_pesca,
+                MAX(CASE WHEN ae.autorizada_autorizacoes_embarcacao = 'S' THEN 1 ELSE 0 END) AS autorizada
+            FROM T_DA_EVENTO_PESCA ep
+            JOIN T_DA_EMBARCACAO emb
+                ON ep.id_embarcacao = emb.id_embarcacao
+            LEFT JOIN T_DA_POSICAO_EVENTO pe
+                ON ep.id_evento_pesca = pe.id_evento_pesca
+            LEFT JOIN T_DA_METRICAS_PESCA mp
+                ON ep.id_evento_pesca = mp.id_evento_pesca
+            LEFT JOIN T_DA_AUTORIZACOES_EMBARCACAO ae
+                ON emb.id_embarcacao = ae.id_embarcacao
+            WHERE pe.lat_posicao_evento IS NOT NULL
+              AND pe.lon_posicao_evento IS NOT NULL
+            GROUP BY
+                emb.mmsi_embarcacao,
+                emb.nm_embarcacao,
+                pe.lat_posicao_evento,
+                pe.lon_posicao_evento,
+                mp.velocidade_media_nos_metricas_pesca""");
+
+        ResultSet rs = stmt.executeQuery();
+
+        while(rs.next()){
+            EmbarcacaoMapaDTO objEmbarcacaoMapaDTO = new EmbarcacaoMapaDTO();
+            objEmbarcacaoMapaDTO.setMmsi(rs.getString(1));
+            objEmbarcacaoMapaDTO.setNome(rs.getString(2));
+            objEmbarcacaoMapaDTO.setLatitude(rs.getDouble(3));
+            objEmbarcacaoMapaDTO.setLongitude(rs.getDouble(4));
+            objEmbarcacaoMapaDTO.setVelocidade(rs.getDouble(5));
+            objEmbarcacaoMapaDTO.setAutorizada(rs.getInt(6) == 1);  // MAX retorna 0 ou 1
+
+            listaEmbarcacaoMapa.add(objEmbarcacaoMapaDTO);
+        }
+        return listaEmbarcacaoMapa;
     }
 }
