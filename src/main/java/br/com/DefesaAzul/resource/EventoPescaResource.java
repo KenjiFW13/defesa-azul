@@ -1,6 +1,7 @@
 package br.com.DefesaAzul.resource;
 
 import br.com.DefesaAzul.bo.EventoPescaBo;
+import br.com.DefesaAzul.entities.EmbarcacaoMapaDTO;
 import br.com.DefesaAzul.entities.EventoPesca;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
@@ -57,5 +58,13 @@ public class EventoPescaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public EventoPesca selecionarPorCodigoRs(@PathParam("codigo") int codigo) throws SQLException, ClassNotFoundException {
         return (EventoPesca) eventoPescaBo.selecionarPorCodigoBo(codigo);
+    }
+
+    // QueryMapa
+    @GET
+    @Path("/mapa")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<EmbarcacaoMapaDTO> mapaRs() throws SQLException, ClassNotFoundException {
+        return eventoPescaBo.queryMapa();
     }
 }
